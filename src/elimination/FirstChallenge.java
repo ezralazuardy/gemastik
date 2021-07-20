@@ -68,7 +68,7 @@ public class FirstChallenge {
         result.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .forEachOrdered(i -> sortedResult.put(i.getKey(), i.getValue())); // if merge sort -> O(n log n)
+                .forEachOrdered(i -> sortedResult.put(i.getKey(), i.getValue())); // if merge sort then O(n log n)
 
         sortedResult.forEach((key, value) -> System.out.format("%s %d%n", key, value)); // O(n)
 
