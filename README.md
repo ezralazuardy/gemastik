@@ -6,7 +6,14 @@
 
 ## 🌟 Solution for Gemastik Challenges
 
-All solution listed in this repository is from Gemastik 2016, 2017, 2020, and 2021 Competition (Division I - Programming)
+All solution listed in this repository is from Gemastik Competition (Division I - Programming)
 
 > Recommended JDK version: [JDK 16](https://www.oracle.com/java/technologies/javase-jdk16-downloads.html)<br/>
 > Recommended IDE: [Intelijj IDEA](https://www.jetbrains.com/idea/)
+
+#### Available solutions
+
+- Gemastik 2021 Solutions (coming soon)
+- [Gemastik 2020 Solutions](https://github.com/ezralazuardy/gemastik/tree/2020)
+- Gemastik 2017 Solutions (work in progresss)
+- Gemastik 2016 Solutions (work in progresss)
