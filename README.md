@@ -8,4 +8,5 @@
 
 All solution listed in this repository is from Gemastik 2016, 2017, 2020, and 2021 Competition (Division I - Programming)
 
+> Recommended JDK version: [JDK 16](https://www.oracle.com/java/technologies/javase-jdk16-downloads.html)<br/>
 > Recommended IDE: [Intelijj IDEA](https://www.jetbrains.com/idea/)
