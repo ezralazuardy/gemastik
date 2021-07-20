@@ -29,6 +29,7 @@ import java.util.*;
  * Mekar 10 100 70 Jeungjirigil 30 200 40<br/>
  * Cihanjuang 1000 210 70 Cisaranten 1230 2045 80<br/>
  * </code>
+ * </p>
  * <p>
  * <h2>Keluaran</h2>
  * <code>
@@ -36,9 +37,11 @@ import java.util.*;
  * Sari Wangi 178<br/>
  * Mekar Jeungjirigil 101<br/>
  * </code>
- * <br/>
+ * </p>
+ * <p>
  * <h2>Solution</h2>
- * Worst case time & space complexity:<code> O(n log n)</code>
+ * Worst case time & space complexity:<code><b> O(n log n)</b></code>
+ * </p>
  */
 
 public class FirstChallenge {
