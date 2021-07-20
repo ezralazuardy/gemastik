@@ -6,4 +6,4 @@
 
 ## 🌟 Solution for Gemastik Challenges
 
-All solution listed in this repository is from Gemastik 2016 and 2020 Competition (Division I - Programming)
+All solution listed in this repository is from Gemastik 2016, 2017, 2020, and 2021 Competition (Division I - Programming)
