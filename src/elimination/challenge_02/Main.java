@@ -1,4 +1,4 @@
-package elimination;
+package elimination.challenge_02;
 
 import java.util.*;
 
@@ -150,7 +150,7 @@ import java.util.*;
  * </p>
  */
 
-public class SecondChallenge {
+public class Main {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
