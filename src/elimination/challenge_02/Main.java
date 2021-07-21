@@ -152,10 +152,70 @@ import java.util.*;
 
 public class Main {
 
+    private static Coordinate cepot;
+    private static Coordinate dawala;
+    private static int[][] maze;
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        /// solve!
+        int p = Integer.parseInt(in.nextLine());
+        int l = Integer.parseInt(in.nextLine());
+        maze = new int[p][l];
+
+        for (int i = 0; i < p; i++) {
+            String[] path = in.nextLine()
+                    .toUpperCase()
+                    .replace("|", "0")
+                    .replace("-", "0")
+                    .replace("x", "0")
+                    .replace(" ", "1")
+                    .split("");
+            if (path.length < l)
+                continue;
+            for (int j = 0; j < l; j++) {
+                if (path[j].chars().allMatch(Character::isDigit)) {
+                    maze[i][j] = Integer.parseInt(path[j]);
+                } else {
+                    if ("C".equals(path[j])) {
+                        cepot = new Coordinate(j, i);
+                    } else if ("D".equals(path[j])) {
+                        dawala = new Coordinate(j, i);
+                    }
+                    maze[i][j] = 1;
+                }
+            }
+        }
+
+        System.out.format("%nC: %d, %d%n", cepot.getX(), cepot.getY());
+        System.out.format("D: %d, %d%n", dawala.getX(), dawala.getY());
+        System.out.println();
+        for (int[] row : maze) {
+            for (int entry : row)
+                System.out.format("%d ", entry);
+            System.out.println();
+        }
+
+        System.out.println();
+        Pathfinder pathfinder = new Pathfinder(maze, dawala, true);
+        List<Node> path = pathfinder.findPathTo(cepot);
+        if (path != null) {
+            path.forEach(node -> {
+                System.out.format("[%d, %d]%n", node.coordinate.getX(), node.coordinate.getY());
+                maze[node.coordinate.getY()][node.coordinate.getX()] = -1;
+            });
+            System.out.format("%nTotal cost: %.02f%n%n", path.get(path.size() - 1).g);
+            for (int[] row : maze) {
+                for (int entry : row) {
+                    switch (entry) {
+                        case 1 -> System.out.print(" ");
+                        case -1 -> System.out.print("*");
+                        default -> System.out.print("#");
+                    }
+                }
+                System.out.println();
+            }
+        }
 
         in.close();
     }
