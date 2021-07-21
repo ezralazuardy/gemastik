@@ -30,8 +30,8 @@ public class Pathfinder {
         this.open = new ArrayList<>();
         this.closed = new ArrayList<>();
         this.path = new ArrayList<>();
-        this.maze = maze;
         this.current = new Node(null, start, 0, 0);
+        this.maze = maze;
         this.start = start;
         this.diagonal = true;
     }
