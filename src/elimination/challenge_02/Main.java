@@ -152,71 +152,52 @@ import java.util.*;
 
 public class Main {
 
-    private static Coordinate cepot;
-    private static Coordinate dawala;
-    private static int[][] maze;
-
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        int p = Integer.parseInt(in.nextLine());
-        int l = Integer.parseInt(in.nextLine());
-        maze = new int[p][l];
+        final int p = Integer.parseInt(in.nextLine());
+        final int l = Integer.parseInt(in.nextLine());
+        int[][] maze = new int[p][l];
+        Coordinate cepot = null;
+        Coordinate dawala = null;
 
-        for (int i = 0; i < p; i++) {
+        for (int i = 0; i < p; i++) { // time & space complexity: O(p)
             String[] path = in.nextLine()
-                    .toUpperCase()
-                    .replace("|", "0")
-                    .replace("-", "0")
-                    .replace("x", "0")
-                    .replace(" ", "1")
+                    .toLowerCase()
+                    .replaceAll("[-|x]", "0")
+                    .replaceAll("[ ]", "1")
                     .split("");
-            if (path.length < l)
-                continue;
-            for (int j = 0; j < l; j++) {
+            if (path.length < l) throw new IllegalStateException("The map format is invalid!");
+            for (int j = 0; j < l; j++) { // time & space complexity: O(p*l)
                 if (path[j].chars().allMatch(Character::isDigit)) {
                     maze[i][j] = Integer.parseInt(path[j]);
                 } else {
-                    if ("C".equals(path[j])) {
+                    if ("c".equals(path[j]))
                         cepot = new Coordinate(j, i);
-                    } else if ("D".equals(path[j])) {
+                    else if ("d".equals(path[j]))
                         dawala = new Coordinate(j, i);
-                    }
                     maze[i][j] = 1;
                 }
             }
         }
 
-        System.out.format("%nC: %d, %d%n", cepot.getX(), cepot.getY());
-        System.out.format("D: %d, %d%n", dawala.getX(), dawala.getY());
-        System.out.println();
-        for (int[] row : maze) {
-            for (int entry : row)
-                System.out.format("%d ", entry);
-            System.out.println();
-        }
-
-        System.out.println();
-        Pathfinder pathfinder = new Pathfinder(maze, dawala, true);
-        List<Node> path = pathfinder.findPathTo(cepot);
-        if (path != null) {
-            path.forEach(node -> {
-                System.out.format("[%d, %d]%n", node.coordinate.getX(), node.coordinate.getY());
-                maze[node.coordinate.getY()][node.coordinate.getX()] = -1;
-            });
-            System.out.format("%nTotal cost: %.02f%n%n", path.get(path.size() - 1).g);
-            for (int[] row : maze) {
-                for (int entry : row) {
-                    switch (entry) {
-                        case 1 -> System.out.print(" ");
-                        case -1 -> System.out.print("*");
-                        default -> System.out.print("#");
-                    }
-                }
-                System.out.println();
-            }
-        }
-
         in.close();
+
+        if (dawala == null) throw new IllegalStateException("Dawala coordinate is not found!");
+        if (cepot == null) throw new IllegalStateException("Cepot coordinate is not found!");
+
+        checkIfDawalaMeetCepot(maze, dawala, cepot);
+
+        checkIfCepotCanEscape(maze, cepot);
+    }
+
+    private static void checkIfDawalaMeetCepot(int[][] maze, Coordinate dawala, Coordinate cepot) {
+        Pathfinder pathfinder = new Pathfinder(maze, dawala);
+        List<Node> path = pathfinder.find(cepot);
+        System.out.format(path != null ? "%nDawala bertemu Cepot%n" : "%nDawala tidak bertemu Cepot%n");
+    }
+
+    private static void checkIfCepotCanEscape(int[][] maze, Coordinate cepot) {
+
     }
 }

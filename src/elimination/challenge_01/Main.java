@@ -71,26 +71,27 @@ public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        // total test cases
         int n = Integer.parseInt(in.nextLine());
 
-        // result data
         HashMap<String, Integer> result = new HashMap<>();
         LinkedHashMap<String, Integer> sortedResult = new LinkedHashMap<>();
 
-        while (n-- > 0) { // time & space complexity: O(n)
+        // time & space complexity: O(n)
+        while (n-- > 0) {
             String[] data = in.nextLine().split(" ");
             Region a = new Region(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]));
             Region b = new Region(data[4], Integer.parseInt(data[5]), Integer.parseInt(data[6]));
             result.put(String.format("%s %s", a.getName(), b.getName()), a.calculateDistanceFrom(b));
         }
 
+        // if merge sort then time & space complexity: O(n log n)
         result.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .forEachOrdered(i -> sortedResult.put(i.getKey(), i.getValue())); // if merge sort then time & space complexity: O(n log n)
+                .forEachOrdered(i -> sortedResult.put(i.getKey(), i.getValue()));
 
-        sortedResult.forEach((key, value) -> System.out.format("%s %d%n", key, value)); // time & space complexity: O(n)
+        // time & space complexity: O(n)
+        sortedResult.forEach((key, value) -> System.out.format("%s %d%n", key, value));
 
         in.close();
     }
