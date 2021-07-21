@@ -64,6 +64,12 @@ import java.util.*;
  * <h2>Solution</h2>
  * Worst case time & space complexity:<code><b> O(n log n)</b></code>
  * </p>
+ * <p>
+ * <h3>Author</h3>
+ * Ezra Lazuardy<br/>
+ * <a href="mailto:ezralucio@gmail.com">ezralucio@gmail.com</a><br/>
+ * <a href="https://ezralazuardy.com">https://ezralazuardy.com</a>
+ * </p>
  */
 
 public class Main {

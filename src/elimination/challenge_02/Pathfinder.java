@@ -10,6 +10,12 @@ import java.util.*;
  * <b>b</b> equals to the branching factor of the maze<br/>
  * <b>d</b> equals to the depth of the goal node
  * </p>
+ * <p>
+ * <h3>Author</h3>
+ * Ezra Lazuardy<br/>
+ * <a href="mailto:ezralucio@gmail.com">ezralucio@gmail.com</a><br/>
+ * <a href="https://ezralazuardy.com">https://ezralazuardy.com</a>
+ * </p>
  */
 public class Pathfinder {
 

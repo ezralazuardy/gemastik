@@ -3,6 +3,12 @@ package elimination.challenge_02;
 /**
  * <h3>Node class</h3>
  * Used to encapsulate a Node data
+ * <p>
+ * <h3>Author</h3>
+ * Ezra Lazuardy<br/>
+ * <a href="mailto:ezralucio@gmail.com">ezralucio@gmail.com</a><br/>
+ * <a href="https://ezralazuardy.com">https://ezralazuardy.com</a>
+ * </p>
  */
 public class Node implements Comparable {
 
