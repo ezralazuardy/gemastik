@@ -20,7 +20,7 @@ public class Region {
 
     // calculate coordinates distance between this object and target
     // time & space complexity: O(1)
-    public int calculateDistanceFrom(Region b) {
-        return (int) this.getCoordinate().distance(b.getCoordinate());
+    public int calculateDistanceFrom(Region target) {
+        return (int) this.getCoordinate().distance(target.getCoordinate());
     }
 }
