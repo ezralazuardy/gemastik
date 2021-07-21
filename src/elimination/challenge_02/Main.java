@@ -194,7 +194,7 @@ public class Main {
     private static void checkIfDawalaMeetCepot(int[][] maze, Coordinate dawala, Coordinate cepot) {
         Pathfinder pathfinder = new Pathfinder(maze, dawala);
         List<Node> path = pathfinder.find(cepot);
-        System.out.format(path != null ? "%nDawala bertemu Cepot%n" : "%nDawala tidak bertemu Cepot%n");
+        System.out.format(path != null ? "%nDawala bertemu Cepot" : "%nDawala tidak bertemu Cepot");
     }
 
     private static void checkIfCepotCanEscape(int[][] maze, Coordinate cepot) {
