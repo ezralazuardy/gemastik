@@ -18,7 +18,7 @@ public class Region {
         return this.coordinate;
     }
 
-    // calculate circle a and circle b based on x y coordinates
+    // calculate coordinates distance between this object and target
     // time & space complexity: O(1)
     public int calculateDistanceFrom(Region b) {
         return (int) this.getCoordinate().distance(b.getCoordinate());
