@@ -5,6 +5,11 @@ import java.util.*;
 /**
  * <h3>Pathfinder Class</h3>
  * Used for A* Search Algorithm implementation
+ * <p>
+ * Worst case time & space complexity:<code><b> O(b^d)</b></code><br/>
+ * <b>b</b> equals to the branching factor of the maze<br/>
+ * <b>d</b> equals to the depth of the goal node
+ * </p>
  */
 public class Pathfinder {
 
@@ -68,19 +73,17 @@ public class Pathfinder {
     }
 
     /**
-     * Calculate distance between current and end target
+     * Calculate distance between current and end target.
+     * If diagonal search is allowed, calculate the Euclidean distance.
+     * If diagonal search is not allowed, calculate the Manhattan distance.
      *
      * @param target Coordinate
      * @return double
      */
     private double distance(Coordinate target) {
-        if (this.diagonal) {
-            // if diagonal searching is allowed, calculate the Euclidean distance
+        if (this.diagonal)
             return Math.hypot(this.current.getCoordinate().getX() + target.getX() - this.end.getX(), this.current.getCoordinate().getY() + target.getY() - this.end.getY());
-        } else {
-            // if not, calculate the Manhattan distance
-            return Math.abs(this.current.getCoordinate().getX() + target.getX() - this.end.getX()) + Math.abs(this.current.getCoordinate().getY() + target.getY() - this.end.getY());
-        }
+        return Math.abs(this.current.getCoordinate().getX() + target.getX() - this.end.getX()) + Math.abs(this.current.getCoordinate().getY() + target.getY() - this.end.getY());
     }
 
     /**

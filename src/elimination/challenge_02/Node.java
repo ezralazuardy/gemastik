@@ -27,7 +27,7 @@ public class Node implements Comparable {
     }
 
     /**
-     * Comparing the Node
+     * Comparing the Node by f value (g + h)
      *
      * @param o Object
      * @return int
@@ -35,7 +35,7 @@ public class Node implements Comparable {
     @Override
     public int compareTo(Object o) {
         Node other = (Node) o;
-        return (int) ((this.g + this.h) - (other.g + other.h));
+        return (int) (this.getF() - other.getF());
     }
 
     /**
@@ -57,7 +57,7 @@ public class Node implements Comparable {
     }
 
     /**
-     * Get Node's move function g(n) value
+     * Get Node's move function <code>g(n)</code> value
      *
      * @return double
      */
@@ -66,7 +66,7 @@ public class Node implements Comparable {
     }
 
     /**
-     * Update Node's move function g(n) value
+     * Update Node's move function <code>g(n)</code> value
      *
      * @param g double
      */
@@ -75,7 +75,7 @@ public class Node implements Comparable {
     }
 
     /**
-     * Get Node's heuristic function h(n) value
+     * Get Node's heuristic function <code>h(n)</code> value
      *
      * @return double
      */

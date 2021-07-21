@@ -146,7 +146,9 @@ import java.util.*;
  *
  * <p>
  * <h2>Solution</h2>
- * Worst case time & space complexity:<code><b> ?</b></code>
+ * This solution uses an A* Search Algorithm that has a
+ * worst case time & space complexity:<code><b> O(b^d)</b></code><br/>
+ * where <b>b</b> equals to the branching factor of the maze and <b>d</b> equals to the depth of the goal node
  * </p>
  */
 
@@ -168,7 +170,7 @@ public class Main {
                     .replaceAll("[ ]", "1")
                     .split("");
             if (path.length < l) throw new IllegalStateException("The map format is invalid!");
-            for (int j = 0; j < l; j++) { // time & space complexity: O(p*l)
+            for (int j = 0; j < l; j++) { // time & space complexity: O(p * l) or O(p^2)
                 if (path[j].chars().allMatch(Character::isDigit)) {
                     maze[i][j] = Integer.parseInt(path[j]);
                 } else {
