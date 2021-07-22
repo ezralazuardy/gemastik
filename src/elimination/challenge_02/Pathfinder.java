@@ -39,7 +39,7 @@ public class Pathfinder {
         this.current = new Node(null, start, 0, 0);
         this.maze = maze;
         this.start = start;
-        this.diagonal = true;
+        this.diagonal = false;
     }
 
     /**
@@ -96,11 +96,10 @@ public class Pathfinder {
      * Add neighbors to open list for pathfinding
      */
     private void addNeighborsToOpenList() {
-        Node node;
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 if (!this.diagonal && x != 0 && y != 0) continue; // skip if diagonalonal movement is'nt allowed
-                node = new Node(this.current, new Coordinate(this.current.getCoordinate().getX() + x, this.current.getCoordinate().getY() + y), this.current.getG(), this.distance(new Coordinate(x, y)));
+                final Node node = new Node(this.current, new Coordinate(this.current.getCoordinate().getX() + x, this.current.getCoordinate().getY() + y), this.current.getG(), this.distance(new Coordinate(x, y)));
                 if ((x != 0 || y != 0) // not this.now
                         && this.current.getCoordinate().getX() + x >= 0 && this.current.getCoordinate().getX() + x < this.maze[0].length // check maze boundaries
                         && this.current.getCoordinate().getY() + y >= 0 && this.current.getCoordinate().getY() + y < this.maze.length

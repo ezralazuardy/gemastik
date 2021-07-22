@@ -1,5 +1,8 @@
 package elimination.challenge_01;
 
+import helper.ExecutionTimeHelper;
+import helper.MemoryUsageHelper;
+
 import java.util.*;
 
 /**
@@ -90,6 +93,11 @@ public class Main {
             result.put(String.format("%s %s", a.getName(), b.getName()), a.calculateDistanceFrom(b));
         }
 
+        in.close();
+
+        // record the execution start time
+        long startTime = System.nanoTime();
+
         // if merge sort then time & space complexity: O(n log n)
         result.entrySet()
                 .stream()
@@ -97,8 +105,11 @@ public class Main {
                 .forEachOrdered(i -> sortedResult.put(i.getKey(), i.getValue()));
 
         // time & space complexity: O(n)
+        System.out.println();
         sortedResult.forEach((key, value) -> System.out.format("%s %d%n", key, value));
 
-        in.close();
+        // print the runtime information
+        ExecutionTimeHelper.printExecutionTime(startTime);
+        MemoryUsageHelper.printMemoryUsage();
     }
 }

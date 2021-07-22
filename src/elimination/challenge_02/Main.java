@@ -1,5 +1,8 @@
 package elimination.challenge_02;
 
+import helper.ExecutionTimeHelper;
+import helper.MemoryUsageHelper;
+
 import java.util.*;
 
 /**
@@ -160,6 +163,11 @@ import java.util.*;
 
 public class Main {
 
+    /**
+     * Main method
+     *
+     * @param args String[]
+     */
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
@@ -168,44 +176,98 @@ public class Main {
         int[][] maze = new int[p][l];
         Coordinate cepot = null;
         Coordinate dawala = null;
+        List<Coordinate> holes = new ArrayList<>();
 
         for (int i = 0; i < p; i++) { // time & space complexity: O(p)
-            String[] path = in.nextLine()
-                    .toLowerCase()
-                    .replaceAll("[-|x]", "0")
+            String data = in.nextLine().toLowerCase();
+            String[] row = data.replaceAll("[-|x]", "0")
                     .replaceAll("[ ]", "1")
                     .split("");
-            if (path.length < l) throw new IllegalStateException("The map format is invalid!");
+
+            // verify map row is valid
+            if (row.length < l) throw new IllegalStateException("The map row format is invalid!");
+
+            // find the holes coordinates in topside and bottomside of the map
+            if (data.contains("-") && (i == 0 || i == p - 1)) {
+                for (int j = 0; j < l; j++) {
+                    if (row[j].equals("1")) holes.add(new Coordinate(j, i));
+                }
+            }
+
+            // find the holes coordinates in both side og the map
+            if (i > 0 && i < p - 1) {
+                if (row[0].equals("1")) holes.add(new Coordinate(0, i));
+                if (row[l - 1].equals("1")) holes.add(new Coordinate(l - 1, i));
+            }
+
+            // reformat the maze data
             for (int j = 0; j < l; j++) { // time & space complexity: O(p * l) or O(p^2)
-                if (path[j].chars().allMatch(Character::isDigit)) {
-                    maze[i][j] = Integer.parseInt(path[j]);
-                } else {
-                    if ("c".equals(path[j]))
-                        cepot = new Coordinate(j, i);
-                    else if ("d".equals(path[j]))
-                        dawala = new Coordinate(j, i);
-                    maze[i][j] = 1;
+                if (row[j].chars().allMatch(Character::isDigit)) {
+                    maze[i][j] = Integer.parseInt(row[j]);
+                } else if (row[j].equals("d")) {
+                    dawala = new Coordinate(j, i);
+                    maze[i][j] = 2;
+                } else if (row[j].equals("c")) {
+                    cepot = new Coordinate(j, i);
+                    maze[i][j] = 3;
                 }
             }
         }
 
         in.close();
 
+        // record the execution start time
+        long startTime = System.nanoTime();
+
+        // verify is Dawala dan Cepot coordinate are available
         if (dawala == null) throw new IllegalStateException("Dawala coordinate is not found!");
         if (cepot == null) throw new IllegalStateException("Cepot coordinate is not found!");
 
-        checkIfDawalaMeetCepot(maze, dawala, cepot);
+        // check if dawala can meet cepot absed on coordinate
+        checkIfDawalaCanMeetCepot(maze, dawala, cepot);
 
-        checkIfCepotCanEscape(maze, cepot);
+        // check if cepot can escape through hole based on coordinate
+        checkIfCepotCanEscape(maze, holes, dawala, cepot);
+
+        // print the runtime information
+        ExecutionTimeHelper.printExecutionTime(startTime);
+        MemoryUsageHelper.printMemoryUsage();
     }
 
-    private static void checkIfDawalaMeetCepot(int[][] maze, Coordinate dawala, Coordinate cepot) {
+    /**
+     * Check if Dawala can meet Cepot based on their coordinate
+     * and obstacle in map
+     *
+     * @param maze   int[][]
+     * @param dawala Coordinate
+     * @param cepot  Coordinate
+     */
+    private static void checkIfDawalaCanMeetCepot(int[][] maze, Coordinate dawala, Coordinate cepot) {
         Pathfinder pathfinder = new Pathfinder(maze, dawala);
         List<Node> path = pathfinder.find(cepot);
         System.out.format(path != null ? "%nDawala bertemu Cepot" : "%nDawala tidak bertemu Cepot");
     }
 
-    private static void checkIfCepotCanEscape(int[][] maze, Coordinate cepot) {
-
+    /**
+     * Check if Cepot can flee from dawala based on her coordinate
+     * and osbtacle in map
+     *
+     * @param maze  int[][]
+     * @param cepot Coordinate
+     */
+    private static void checkIfCepotCanEscape(int[][] maze, List<Coordinate> holes, Coordinate dawala, Coordinate cepot) {
+        boolean escaped = false;
+        for (Coordinate hole : holes) {
+            // skip the hole if it's coordinate is near to Dawala
+            if (cepot.getY() <= dawala.getY() && hole.getY() >= dawala.getY()) continue;
+            if (cepot.getY() >= dawala.getY() && hole.getY() <= dawala.getY()) continue;
+            Pathfinder pathfinder = new Pathfinder(maze, cepot);
+            List<Node> path = pathfinder.find(hole);
+            if (path != null) {
+                escaped = true;
+                break;
+            }
+        }
+        System.out.format(escaped ? "%nada jalan Cepot lumpat%n" : "%ntidak ada jalan Cepot lumpat%n");
     }
 }
