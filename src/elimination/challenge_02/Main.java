@@ -180,9 +180,7 @@ public class Main {
 
         for (int i = 0; i < p; i++) { // time & space complexity: O(p)
             String data = in.nextLine().toLowerCase();
-            String[] row = data.replaceAll("[-|x]", "0")
-                    .replaceAll("[ ]", "1")
-                    .split("");
+            String[] row = data.replaceAll("[-|x]", "0").replaceAll("[ ]", "1").split("");
 
             // verify map row is valid
             if (row.length < l) throw new IllegalStateException("The map row format is invalid!");
