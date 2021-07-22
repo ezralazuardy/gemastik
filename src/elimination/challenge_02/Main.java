@@ -189,7 +189,7 @@ public class Main {
 
             // find the holes coordinates in topside and bottomside of the map
             if (data.contains("-") && (i == 0 || i == p - 1)) {
-                for (int j = 0; j < l; j++) {
+                for (int j = 0; j < l; j++) { // time & space complexity: O(p * l) or O(p^2)
                     if (row[j].equals("1")) holes.add(new Coordinate(j, i));
                 }
             }
@@ -244,8 +244,7 @@ public class Main {
      */
     private static void checkIfDawalaCanMeetCepot(int[][] maze, Coordinate dawala, Coordinate cepot) {
         Pathfinder pathfinder = new Pathfinder(maze, dawala);
-        List<Node> path = pathfinder.find(cepot);
-        System.out.format(path != null ? "%nDawala bertemu Cepot" : "%nDawala tidak bertemu Cepot");
+        System.out.format(pathfinder.find(cepot) != null ? "%nDawala bertemu Cepot" : "%nDawala tidak bertemu Cepot");
     }
 
     /**
@@ -257,13 +256,12 @@ public class Main {
      */
     private static void checkIfCepotCanEscape(int[][] maze, List<Coordinate> holes, Coordinate dawala, Coordinate cepot) {
         boolean escaped = false;
-        for (Coordinate hole : holes) {
+        for (Coordinate hole : holes) { // time & space complexity: O(n)
             // skip the hole if it's coordinate is near to Dawala
             if (cepot.getY() <= dawala.getY() && hole.getY() >= dawala.getY()) continue;
             if (cepot.getY() >= dawala.getY() && hole.getY() <= dawala.getY()) continue;
             Pathfinder pathfinder = new Pathfinder(maze, cepot);
-            List<Node> path = pathfinder.find(hole);
-            if (path != null) {
+            if (pathfinder.find(hole) != null) {
                 escaped = true;
                 break;
             }
