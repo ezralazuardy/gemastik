@@ -3,7 +3,9 @@ package elimination.challenge_02;
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * <h1>Lumpat (Kabur)</h1>

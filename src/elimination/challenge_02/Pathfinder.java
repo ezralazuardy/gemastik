@@ -1,6 +1,8 @@
 package elimination.challenge_02;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <h3>Pathfinder Class</h3>
