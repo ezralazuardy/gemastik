@@ -194,7 +194,7 @@ public class Main {
                 }
             }
 
-            // find the holes coordinates in both side og the map
+            // find the holes coordinates in both side of the map
             if (i > 0 && i < p - 1) {
                 if (row[0].equals("1")) holes.add(new Coordinate(0, i));
                 if (row[l - 1].equals("1")) holes.add(new Coordinate(l - 1, i));
