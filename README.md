@@ -8,6 +8,8 @@
 
 All solution listed in this repository is from Gemastik Competition (Division I - Programming)
 
+Language used in this challenge is Indonesian
+
 > Recommended JDK version: [JDK 16](https://www.oracle.com/java/technologies/javase-jdk16-downloads.html)<br/>
 > Recommended IDE: [Intelijj IDEA](https://www.jetbrains.com/idea/)
 
