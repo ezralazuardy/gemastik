@@ -100,10 +100,10 @@ public class Pathfinder {
             for (int y = -1; y <= 1; y++) {
                 if (!this.diagonal && x != 0 && y != 0) continue; // skip if diagonalonal movement is'nt allowed
                 final Node node = new Node(this.current, new Coordinate(this.current.getCoordinate().getX() + x, this.current.getCoordinate().getY() + y), this.current.getG(), this.distance(new Coordinate(x, y)));
-                if ((x != 0 || y != 0) // not this.now
+                if ((x != 0 || y != 0) // not this.current
                         && this.current.getCoordinate().getX() + x >= 0 && this.current.getCoordinate().getX() + x < this.maze[0].length // check maze boundaries
                         && this.current.getCoordinate().getY() + y >= 0 && this.current.getCoordinate().getY() + y < this.maze.length
-                        && this.maze[this.current.getCoordinate().getY() + y][this.current.getCoordinate().getX() + x] != 0 // check if square is walkable
+                        && this.maze[this.current.getCoordinate().getY() + y][this.current.getCoordinate().getX() + x] != 0 // check if path is walkable
                         && !findNeighborInList(this.open, node) && !findNeighborInList(this.closed, node)) { // if not already done
                     node.setG(node.getParent().getG() + 1); // Horizontal/vertical cost = 1.0
                     node.setG(node.getG() + maze[this.current.getCoordinate().getY() + y][this.current.getCoordinate().getX() + x]); // add movement cost for this square
