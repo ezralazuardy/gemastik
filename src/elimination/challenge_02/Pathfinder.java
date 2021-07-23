@@ -87,19 +87,6 @@ public class Pathfinder {
         return this.path;
     }
 
-    /**
-     * Looks in a given list for a neighbors node
-     *
-     * @param nodes  List(Node)
-     * @param target Node
-     * @return boolean
-     */
-    private static boolean findNodeInList(List<Node> nodes, Node target) {
-
-        // return true if the target node is available in the given node list
-        return nodes.stream().anyMatch(n ->
-                n.getCoordinate().getX() == target.getCoordinate().getX() && n.getCoordinate().getY() == target.getCoordinate().getY());
-    }
 
     /**
      * Calculate distance between current and end target.
@@ -110,8 +97,12 @@ public class Pathfinder {
      * @return double
      */
     private double distance(Coordinate target) {
+
+        // if diagonal movement is allowed, calculate the Euclidean distance
         if (this.diagonal)
             return Math.hypot(this.current.getCoordinate().getX() + target.getX() - this.end.getX(), this.current.getCoordinate().getY() + target.getY() - this.end.getY());
+
+        // if diagonal movement isn't allowed, calculate the Manhattan distance
         return Math.abs(this.current.getCoordinate().getX() + target.getX() - this.end.getX()) + Math.abs(this.current.getCoordinate().getY() + target.getY() - this.end.getY());
     }
 
@@ -123,10 +114,10 @@ public class Pathfinder {
      * <li>(x - 1, y + 1) <sup>Euclidean</sup></li>
      * <li>(x + 1, y - 1) <sup>Euclidean</sup></li>
      * <li>(x + 1, y + 1) <sup>Euclidean</sup></li>
-     * <li>(x - 1, y) <sup>Manhattan</sup></li>
-     * <li>(x, y - 1) <sup>Manhattan</sup></li>
-     * <li>(x, y + 1) <sup>Manhattan</sup></li>
-     * <li>(x + 1, y) <sup>Manhattan</sup></li>
+     * <li>(x - 1, y) <sup>Manhattan / Euclidean</sup></li>
+     * <li>(x, y - 1) <sup>Manhattan / Euclidean</sup></li>
+     * <li>(x, y + 1) <sup>Manhattan / Euclidean</sup></li>
+     * <li>(x + 1, y) <sup>Manhattan / Euclidean</sup></li>
      * </ul>
      */
     private void addNeighborsToOpenList() {
@@ -175,9 +166,9 @@ public class Pathfinder {
                         // and if path to neighbor is walkable, obstacle is identified by 0
                         && this.maze[neighbor.getCoordinate().getY()][neighbor.getCoordinate().getX()] != 0
                         // and if this new neighbor node isn't already added in open set
-                        && !findNodeInList(this.open, neighbor)
+                        && !this.open.contains(neighbor)
                         // and if the new neighbor node isn't already added in closed set
-                        && !findNodeInList(this.closed, neighbor)
+                        && !this.closed.contains(neighbor)
                 ) {
 
                     // set the neighbor g(n) by parent's g(n) + path price (default path price is 1) + 1
