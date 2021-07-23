@@ -211,10 +211,10 @@ public class Main {
                     maze[i][j] = Integer.parseInt(row[j]);
                 } else if (row[j].equals("d")) {
                     dawala = new Coordinate(j, i);
-                    maze[i][j] = -1; // mark dawala symbol as int -1
+                    maze[i][j] = -1; // mark Dawala symbol as int -1
                 } else if (row[j].equals("c")) {
                     cepot = new Coordinate(j, i);
-                    maze[i][j] = -1; // mark cepot symbol as int -1
+                    maze[i][j] = -1; // mark Cepot symbol as int -1
                 }
             }
         }
