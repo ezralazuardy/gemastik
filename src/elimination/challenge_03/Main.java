@@ -92,7 +92,8 @@ public class Main {
 
         int n = Integer.parseInt(in.nextLine());
 
-        while (n-- > 0) { // time & space complexity: O(n)
+        // time & space complexity: O(n)
+        while (n-- > 0) {
 
             String[] data = in.nextLine().trim().split(" ");
             if (data.length < 3) throw new IllegalStateException("Input must be P Q and M");

@@ -46,8 +46,8 @@ public class Region {
     }
 
     /**
-     * Calculate the Region distance from target
-     * Time & space complexity: O(1)
+     * Calculate the Region distance from target<br/>
+     * with time & space complexity: O(1)
      *
      * @param target Region
      * @return int

@@ -51,39 +51,60 @@ public class Pathfinder {
      * @return List(Node)
      */
     public List<Node> find(Coordinate target) {
+
+        // mark the given target coordinate as an end target
         this.end = target;
-        this.closed.add(this.current);
+
+        // search and add the nearest neighbors to open set
         addNeighborsToOpenList();
+
+        // find the end target
         while (this.current.getCoordinate().getX() != this.end.getX() || this.current.getCoordinate().getY() != this.end.getY()) {
-            if (this.open.isEmpty()) return null;
+
+            // if then open set is empty, it means the end target isn't found
+            // return an empty path
+            if (this.open.isEmpty()) return this.path;
+
+            // set the first element of open set as current node
             this.current = this.open.get(0);
+
+            // remove the first element in open set
+            // because it have been used as current node
             this.open.remove(0);
-            this.closed.add(this.current);
+
+            // search and add the nearest neighbors to open set
             addNeighborsToOpenList();
         }
+
+        // if the end target is found, do reconstruct the path
         this.path.add(0, this.current);
         while (this.current.getCoordinate().getX() != this.start.getX() || this.current.getCoordinate().getY() != this.start.getY()) {
             this.current = this.current.getParent();
             this.path.add(0, this.current);
         }
+
+        // return the reconstructed path
         return this.path;
     }
 
     /**
      * Looks in a given list for a neighbors node
      *
-     * @param nodes List(Node)
-     * @param node  Node
+     * @param nodes  List(Node)
+     * @param target Node
      * @return boolean
      */
-    private static boolean findNeighborInList(List<Node> nodes, Node node) {
-        return nodes.stream().anyMatch(n -> n.getCoordinate().getX() == node.getCoordinate().getX() && n.getCoordinate().getY() == node.getCoordinate().getY());
+    private static boolean findNodeInList(List<Node> nodes, Node target) {
+
+        // return true if the target node is available in the given node list
+        return nodes.stream().anyMatch(n ->
+                n.getCoordinate().getX() == target.getCoordinate().getX() && n.getCoordinate().getY() == target.getCoordinate().getY());
     }
 
     /**
      * Calculate distance between current and end target.
      * If diagonal search is allowed, calculate the Euclidean distance.
-     * If diagonal search is not allowed, calculate the Manhattan distance.
+     * If diagonal search isn't allowed, calculate the Manhattan distance.
      *
      * @param target Coordinate
      * @return double
@@ -95,24 +116,83 @@ public class Pathfinder {
     }
 
     /**
-     * Add neighbors to open list for pathfinding
+     * Search and add nearest neighbors to open list<br/>
+     * Scan area:
+     * <ul>
+     * <li>(x - 1, y - 1) <sup>Euclidean</sup></li>
+     * <li>(x - 1, y + 1) <sup>Euclidean</sup></li>
+     * <li>(x + 1, y - 1) <sup>Euclidean</sup></li>
+     * <li>(x + 1, y + 1) <sup>Euclidean</sup></li>
+     * <li>(x - 1, y) <sup>Manhattan</sup></li>
+     * <li>(x, y - 1) <sup>Manhattan</sup></li>
+     * <li>(x, y + 1) <sup>Manhattan</sup></li>
+     * <li>(x + 1, y) <sup>Manhattan</sup></li>
+     * </ul>
      */
     private void addNeighborsToOpenList() {
+
+        // add current node to closed set
+        this.closed.add(this.current);
+
+        // initialize state to check if the open set is updated
+        boolean updatedOpenSet = false;
+
+        // time & space complexity: O(x)
         for (int x = -1; x <= 1; x++) {
+
+            // time & space complexity: O(x^2)
             for (int y = -1; y <= 1; y++) {
-                if (!this.diagonal && x != 0 && y != 0) continue; // skip if diagonalonal movement is'nt allowed
-                final Node node = new Node(this.current, new Coordinate(this.current.getCoordinate().getX() + x, this.current.getCoordinate().getY() + y), this.current.getG(), this.distance(new Coordinate(x, y)));
-                if ((x != 0 || y != 0) // not this.current
-                        && this.current.getCoordinate().getX() + x >= 0 && this.current.getCoordinate().getX() + x < this.maze[0].length // check maze boundaries
-                        && this.current.getCoordinate().getY() + y >= 0 && this.current.getCoordinate().getY() + y < this.maze.length
-                        && this.maze[this.current.getCoordinate().getY() + y][this.current.getCoordinate().getX() + x] != 0 // check if path is walkable
-                        && !findNeighborInList(this.open, node) && !findNeighborInList(this.closed, node)) { // if not already done
-                    node.setG(node.getParent().getG() + 1); // Horizontal/vertical cost = 1.0
-                    node.setG(node.getG() + maze[this.current.getCoordinate().getY() + y][this.current.getCoordinate().getX() + x]); // add movement cost for this square
-                    this.open.add(node);
+
+                // initialize the new neighbor as node
+                final Node neighbor = new Node(
+                        // set current node as a parent for the new neighbor node
+                        this.current,
+                        // set the neighbor coordinate based on the nested loop
+                        new Coordinate(this.current.getCoordinate().getX() + x, this.current.getCoordinate().getY() + y),
+                        // set the neighbor g(n) with current node g(n) value
+                        this.current.getG(),
+                        // set the neighbor h(n) by estimating Euclidean distance (if diagonal move is allowed)
+                        // or Manhattan distance (if diagonal move isn't allowed)
+                        this.distance(new Coordinate(this.current.getCoordinate().getX() + x, this.current.getCoordinate().getY() + y))
+                );
+
+                // ensure to only add neighbor based on Manhattan movement
+                // if the diagonal movement is'nt allowed
+                if (!this.diagonal
+                        // and neighbor x coordinate isn't same as current x coordinate 
+                        && neighbor.getCoordinate().getX() != current.getCoordinate().getX()
+                        // and neighbor y coordinate is'nt same as current y coordinate
+                        && neighbor.getCoordinate().getY() != current.getCoordinate().getY()
+                ) continue;
+
+                // add neighbor to open set
+                // if the neighbor coordinate x or y isn't the same as current node
+                if ((neighbor.getCoordinate().getX() != current.getCoordinate().getX() || neighbor.getCoordinate().getY() != current.getCoordinate().getY())
+                        // and if neighbor x coordinate is 0 <= x < maximum_x
+                        && neighbor.getCoordinate().getX() >= 0 && neighbor.getCoordinate().getX() < this.maze[0].length
+                        // and if neighbor y coordinate is 0 <= y < maximum_y
+                        && neighbor.getCoordinate().getY() >= 0 && neighbor.getCoordinate().getY() < this.maze.length
+                        // and if path to neighbor is walkable, obstacle is identified by 0
+                        && this.maze[neighbor.getCoordinate().getY()][neighbor.getCoordinate().getX()] != 0
+                        // and if this new neighbor node isn't already added in open set
+                        && !findNodeInList(this.open, neighbor)
+                        // and if the new neighbor node isn't already added in closed set
+                        && !findNodeInList(this.closed, neighbor)
+                ) {
+
+                    // set the neighbor g(n) by parent's g(n) + path price (default path price is 1) + 1
+                    neighbor.incrementG(maze[neighbor.getCoordinate().getY()][neighbor.getCoordinate().getX()]);
+
+                    // confirm add the neighbor to open set
+                    this.open.add(neighbor);
+
+                    // mark the updated open set state to true
+                    updatedOpenSet = true;
                 }
             }
         }
-        Collections.sort(this.open);
+
+        // if the open set is updated, sort it by ascending order
+        if (updatedOpenSet) Collections.sort(this.open);
     }
 }
