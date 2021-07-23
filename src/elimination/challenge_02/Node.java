@@ -33,14 +33,14 @@ public class Node implements Comparable {
     }
 
     /**
-     * Comparing the Node by f value (g + h)
+     * The Node sorting comparator by f(n) value
      *
-     * @param other Object
+     * @param o Object
      * @return int
      */
     @Override
-    public int compareTo(Object other) {
-        return (int) (this.getF() - ((Node) other).getF());
+    public int compareTo(Object o) {
+        return Double.compare(this.getF(), ((Node) o).getF());
     }
 
     /**
@@ -73,7 +73,7 @@ public class Node implements Comparable {
     /**
      * Increment Node's move function <code>g(n)</code> value by the given path price
      *
-     * @param g double
+     * @param pathPrice double
      */
     public void incrementG(double pathPrice) {
         this.g += this.parent.getG() + pathPrice;

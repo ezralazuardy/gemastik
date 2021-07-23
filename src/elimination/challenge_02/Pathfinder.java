@@ -1,8 +1,8 @@
 package elimination.challenge_02;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * <h3>Pathfinder Class</h3>
@@ -21,7 +21,8 @@ import java.util.List;
  */
 public class Pathfinder {
 
-    private final List<Node> open, closed, path;
+    private final PriorityQueue<Node> open, closed;
+    private final List<Node> path;
     private final int[][] maze;
     private final boolean diagonal;
     private final Coordinate start;
@@ -35,8 +36,8 @@ public class Pathfinder {
      * @param start Coordinate
      */
     public Pathfinder(int[][] maze, Coordinate start) {
-        this.open = new ArrayList<>();
-        this.closed = new ArrayList<>();
+        this.open = new PriorityQueue<>();
+        this.closed = new PriorityQueue<>();
         this.path = new ArrayList<>();
         this.current = new Node(null, start, 0, 0);
         this.maze = maze;
@@ -66,11 +67,7 @@ public class Pathfinder {
             if (this.open.isEmpty()) return this.path;
 
             // set the first element of open set as current node
-            this.current = this.open.get(0);
-
-            // remove the first element in open set
-            // because it have been used as current node
-            this.open.remove(0);
+            this.current = this.open.poll();
 
             // search and add the nearest neighbors to open set
             addNeighborsToOpenList();
@@ -87,6 +84,19 @@ public class Pathfinder {
         return this.path;
     }
 
+    /**
+     * Looks in a given list for a neighbors node
+     *
+     * @param nodes  List(Node)
+     * @param target Node
+     * @return boolean
+     */
+    private static boolean findNodeInList(PriorityQueue<Node> nodes, Node target) {
+
+        // return true if the target node is available in the given node list
+        return nodes.stream().anyMatch(n ->
+                n.getCoordinate().getX() == target.getCoordinate().getX() && n.getCoordinate().getY() == target.getCoordinate().getY());
+    }
 
     /**
      * Calculate distance between current and end target.
@@ -125,14 +135,14 @@ public class Pathfinder {
         // add current node to closed set
         this.closed.add(this.current);
 
-        // initialize state to check if the open set is updated
-        boolean updatedOpenSet = false;
-
         // time & space complexity: O(x)
         for (int x = -1; x <= 1; x++) {
 
-            // time & space complexity: O(x^2)
+            // time & space complexity: O(x^2 - 1)
             for (int y = -1; y <= 1; y++) {
+
+                // make sure that neighbor's x and y coordinate is different from current node
+                if (x == 0 && y == 0) continue;
 
                 // initialize the new neighbor as node
                 final Node neighbor = new Node(
@@ -158,17 +168,16 @@ public class Pathfinder {
 
                 // add neighbor to open set
                 // if the neighbor coordinate x or y isn't the same as current node
-                if ((neighbor.getCoordinate().getX() != current.getCoordinate().getX() || neighbor.getCoordinate().getY() != current.getCoordinate().getY())
-                        // and if neighbor x coordinate is 0 <= x < maximum_x
-                        && neighbor.getCoordinate().getX() >= 0 && neighbor.getCoordinate().getX() < this.maze[0].length
+                if (// and if neighbor x coordinate is 0 <= x < maximum_x
+                        neighbor.getCoordinate().getX() >= 0 && neighbor.getCoordinate().getX() < this.maze[0].length
                         // and if neighbor y coordinate is 0 <= y < maximum_y
                         && neighbor.getCoordinate().getY() >= 0 && neighbor.getCoordinate().getY() < this.maze.length
                         // and if path to neighbor is walkable, obstacle is identified by 0
                         && this.maze[neighbor.getCoordinate().getY()][neighbor.getCoordinate().getX()] != 0
                         // and if this new neighbor node isn't already added in open set
-                        && !this.open.contains(neighbor)
+                        && !findNodeInList(this.open, neighbor)
                         // and if the new neighbor node isn't already added in closed set
-                        && !this.closed.contains(neighbor)
+                        && !findNodeInList(this.closed, neighbor)
                 ) {
 
                     // set the neighbor g(n) by parent's g(n) + path price (default path price is 1) + 1
@@ -176,14 +185,8 @@ public class Pathfinder {
 
                     // confirm add the neighbor to open set
                     this.open.add(neighbor);
-
-                    // mark the updated open set state to true
-                    updatedOpenSet = true;
                 }
             }
         }
-
-        // if the open set is updated, sort it by ascending order
-        if (updatedOpenSet) Collections.sort(this.open);
     }
 }
