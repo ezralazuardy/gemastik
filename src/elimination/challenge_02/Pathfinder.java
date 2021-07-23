@@ -167,9 +167,8 @@ public class Pathfinder {
                 ) continue;
 
                 // add neighbor to open set
-                // if the neighbor coordinate x or y isn't the same as current node
-                if (// and if neighbor x coordinate is 0 <= x < maximum_x
-                        neighbor.getCoordinate().getX() >= 0 && neighbor.getCoordinate().getX() < this.maze[0].length
+                // if neighbor x coordinate is 0 <= x < maximum_x
+                if (neighbor.getCoordinate().getX() >= 0 && neighbor.getCoordinate().getX() < this.maze[0].length
                         // and if neighbor y coordinate is 0 <= y < maximum_y
                         && neighbor.getCoordinate().getY() >= 0 && neighbor.getCoordinate().getY() < this.maze.length
                         // and if path to neighbor is walkable, obstacle is identified by 0
