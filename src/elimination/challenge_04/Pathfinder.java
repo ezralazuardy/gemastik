@@ -78,7 +78,7 @@ public class Pathfinder {
 
         // verify if the current node is same as target node
         if (!this.current.equals(target))
-            throw new IllegalStateException("There is no path found to the target coordinate!");
+            throw new IllegalStateException("There is no path found to the target node!");
 
         // reconstruct the path
         final List<Node> path = new ArrayList<>();
