@@ -174,7 +174,7 @@ public class Main {
             path.put(key.toString().trim(), result.stream().mapToDouble(Node::getH).sum());
         }
 
-        // check if there is an available path
+        // check if there is an avaliable path
         if (!path.isEmpty()) {
 
             // get the path that have max h(n)
@@ -187,6 +187,8 @@ public class Main {
             // print the path and h(n) value
             System.out.format("%n%s%nMaximum h(n): %.1f%n", max.getKey(), max.getValue());
         } else {
+
+            // print info if there is no path avaliable
             System.out.format("%nThere is no path avaiable%n");
         }
 
