@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * <h1>Jalur Harta Karun</h1>
@@ -148,6 +149,7 @@ public class Main {
         final HashMap<String, Double> path = new HashMap<>();
 
         // get the first node (node with highest h(n))
+        // time & space complexity: O(n)
         Node first = null;
         for (Node node : nodes) {
             if (first == null || first.getH() < node.getH()) first = node;
@@ -156,7 +158,7 @@ public class Main {
         // time & space complexity: O(n * b^d)
         for (Node node : nodes) {
 
-            // skip the starting node is the fixed first node
+            // skip the starting node is the first node (highest h(n) node)
             if (node == first) continue;
 
             // perform pathfinding by highest f(n)
@@ -165,11 +167,12 @@ public class Main {
             // skip if no path is found
             if (result.isEmpty()) continue;
 
-            // build the path key and path total h(n) value
-            // save it to path hashmap
-            final StringBuilder key = new StringBuilder();
-            for (Node entry : result) key.append(entry.getId()).append(" ");
-            path.put(key.toString().trim(), result.stream().mapToDouble(Node::getH).sum());
+            // save path with the total h(n) value
+            // time & space complexity: O(n)
+            path.put(
+                    result.stream().map(i -> String.valueOf(i.getId())).collect(Collectors.joining(" ")),
+                    result.stream().mapToDouble(Node::getH).sum()
+            );
         }
 
         // check if there is an avaliable path
