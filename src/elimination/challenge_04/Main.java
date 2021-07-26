@@ -134,10 +134,8 @@ public class Main {
             data = in.nextLine().split(" ");
             if (data.length < 2)
                 throw new IllegalStateException("Input must be target and neighbor Node!");
-            if (Integer.parseInt(data[0]) < 0 || Integer.parseInt(data[0]) >= n)
-                throw new IllegalStateException("Target Node ID must be 0 - " + n);
-            if (Integer.parseInt(data[1]) < 0 || Integer.parseInt(data[1]) >= n)
-                throw new IllegalStateException("Neighbor Node ID must be 0 - " + n);
+            if (Integer.parseInt(data[0]) < 0 || Integer.parseInt(data[0]) >= n || Integer.parseInt(data[1]) < 0 || Integer.parseInt(data[1]) >= n)
+                throw new IllegalStateException("Parent and Neighbor Node ID must be in range of 0 - " + n);
             nodes[Integer.parseInt(data[0])].addBranch(nodes[Integer.parseInt(data[1])], 0);
         }
 
