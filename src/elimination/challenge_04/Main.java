@@ -3,7 +3,8 @@ package elimination.challenge_04;
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
 
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <h1>Jalur Harta Karun</h1>
@@ -93,7 +94,9 @@ import java.util.Scanner;
  * </p>
  * <p>
  * <h2>Solution</h2>
- * Worst case time & space complexity:<code><b> ?</b></code>
+ * This solution uses an A* Search Algorithm that has a
+ * worst case time & space complexity:<code><b> O(b^d)</b></code><br/>
+ * where <b>b</b> equals to the branching factor of the maze and <b>d</b> equals to the depth of the goal node
  * </p>
  * <p>
  * <h3>Author</h3>
@@ -111,12 +114,64 @@ public class Main {
      * @param args String[]
      */
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
+
+        final Scanner in = new Scanner(System.in);
+
+        String[] data = in.nextLine().split(" ");
+        final int n = Integer.parseInt(data[0]);
+        final int k = Integer.parseInt(data[1]);
+
+        final int[] h = new int[n];
+
+        for (int i = 0; i < n; i++) h[i] = Integer.parseInt(in.nextLine());
+
+        for (int i = 0; i < k; i++) {
+
+        }
 
         in.close();
 
         // record the execution start time
         long startTime = System.nanoTime();
+
+        final Node[] nodes = {
+                new Node(0, 3), new Node(1, 12), new Node(2, 4), new Node(3, 1),
+                new Node(4, 2), new Node(5, 2), new Node(6, 4)
+        };
+
+        final Node[] cloned = nodes.clone();
+
+        Arrays.sort(cloned, (n1, n2) -> Double.compare(n2.getF(), n1.getF()));
+
+        nodes[0].addBranch(nodes[2], 0);
+        nodes[1].addBranch(nodes[3], 0);
+        nodes[2].addBranch(nodes[3], 0);
+        nodes[2].addBranch(nodes[5], 0);
+        nodes[2].addBranch(nodes[4], 0);
+        nodes[3].addBranch(nodes[6], 0);
+        nodes[4].addBranch(nodes[5], 0);
+        nodes[5].addBranch(nodes[3], 0);
+
+        final HashMap<String, Double> possiblePath = new HashMap<>();
+
+        // greedy
+        for (Node node : nodes) {
+            if (node == cloned[0]) continue;
+            final List<Node> result = new Pathfinder(cloned[0]).find(node);
+            if (result.isEmpty()) continue;
+            final StringBuilder key = new StringBuilder();
+            for (Node entry : result) key.append(entry.getId()).append(" ");
+            possiblePath.put(key.toString().trim(), result.stream().mapToDouble(Node::getH).sum());
+        }
+
+        final Map<String, Double> sortedPossiblePath = possiblePath.entrySet()
+                .stream()
+                .sorted((n1, n2) -> n2.getValue().compareTo(n1.getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (n1, n2) -> n2, LinkedHashMap::new));
+
+        final Map.Entry<String, Double> max = sortedPossiblePath.entrySet().iterator().next();
+        System.out.println(max.getKey());
+        System.out.format("Maximum h(n): %.1f%n", max.getValue());
 
         // print the runtime information
         ExecutionTimeHelper.printExecutionTime(startTime);

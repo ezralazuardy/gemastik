@@ -171,7 +171,7 @@ public class Main {
      * @param args String[]
      */
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
+        final Scanner in = new Scanner(System.in);
 
         final int p = Integer.parseInt(in.nextLine());
         final int l = Integer.parseInt(in.nextLine());

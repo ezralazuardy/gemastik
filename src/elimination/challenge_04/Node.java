@@ -1,4 +1,6 @@
-package elimination.challenge_02;
+package elimination.challenge_04;
+
+import java.util.PriorityQueue;
 
 /**
  * <h3>Node class</h3>
@@ -12,24 +14,23 @@ package elimination.challenge_02;
  */
 public class Node implements Comparable {
 
-    private final Node parent;
-    private final Coordinate coordinate;
+    private final PriorityQueue<Edge> edges;
+    private final int id;
     private final double h;
     private double g;
+    private Node parent;
 
     /**
      * Node constructor
      *
-     * @param parent     Node
-     * @param coordinate Coordinate
-     * @param g          double
-     * @param h          double
+     * @param id int
+     * @param h  int
      */
-    public Node(Node parent, Coordinate coordinate, double g, double h) {
-        this.parent = parent;
-        this.coordinate = coordinate;
-        this.g = g;
+    public Node(int id, int h) {
+        this.edges = new PriorityQueue<>();
+        this.id = id;
         this.h = h;
+        this.g = 0;
     }
 
     /**
@@ -52,7 +53,17 @@ public class Node implements Comparable {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Node)) return false;
-        return this.getCoordinate().getX() == ((Node) o).getCoordinate().getX() && this.getCoordinate().getY() == ((Node) o).getCoordinate().getY();
+        return this.getId() == ((Node) o).getId();
+    }
+
+    /**
+     * Add a new branch (Edge) to Node
+     *
+     * @param neighbor Node
+     * @param weight   int
+     */
+    public void addBranch(Node neighbor, int weight) {
+        this.edges.add(new Edge(neighbor, weight));
     }
 
     /**
@@ -65,12 +76,31 @@ public class Node implements Comparable {
     }
 
     /**
-     * Get Node's coordinate
+     * Set a new parrent for Node
      *
-     * @return Coordinate
+     * @param parent Node
      */
-    public Coordinate getCoordinate() {
-        return this.coordinate;
+    public void setParent(Node parent) {
+        this.parent = parent;
+        this.g = this.parent.getG();
+    }
+
+    /**
+     * Get Node's edges
+     *
+     * @return PriorityQueue(Edge)
+     */
+    public PriorityQueue<Edge> getEdges() {
+        return this.edges;
+    }
+
+    /**
+     * Get Node's id
+     *
+     * @return int
+     */
+    public int getId() {
+        return this.id;
     }
 
     /**
@@ -88,7 +118,7 @@ public class Node implements Comparable {
      * @param pathPrice double
      */
     public void incrementG(double pathPrice) {
-        this.g += this.parent.getG() + pathPrice;
+        this.g += +pathPrice;
     }
 
     /**

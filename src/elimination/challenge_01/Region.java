@@ -28,7 +28,7 @@ public class Region {
     }
 
     /**
-     * Get the Region name
+     * Get Region's name
      *
      * @return String
      */
@@ -37,7 +37,7 @@ public class Region {
     }
 
     /**
-     * Get the Region coordinate
+     * Get Region's coordinate
      *
      * @return Coordinate
      */
@@ -46,7 +46,7 @@ public class Region {
     }
 
     /**
-     * Calculate the Region distance from target<br/>
+     * Calculate Region distance from target<br/>
      * with time & space complexity: O(1)
      *
      * @param target Region

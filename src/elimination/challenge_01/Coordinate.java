@@ -30,7 +30,7 @@ public class Coordinate extends Point2D {
     }
 
     /**
-     * Get the x coordinate location
+     * Get <code>x</code> coordinate location
      *
      * @return double
      */
@@ -40,7 +40,7 @@ public class Coordinate extends Point2D {
     }
 
     /**
-     * Get the x coordinate location
+     * Get <code>y</code> coordinate location
      *
      * @return double
      */
@@ -50,7 +50,7 @@ public class Coordinate extends Point2D {
     }
 
     /**
-     * Update the coordinate location
+     * Update <code>x</code> and <code>y</code> coordinate location
      *
      * @param x double
      * @param y double
