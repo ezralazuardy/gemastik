@@ -57,9 +57,6 @@ public class Pathfinder {
             // return an empty path list
             if (this.open.isEmpty()) return new ArrayList<>();
 
-            // if total f(n) is already 17, return the reconstructed path
-            if (this.current.getF() >= 17) return reconstructPath(target);
-
             // update current node with the first element of open set
             this.current = this.open.poll();
 

@@ -3,8 +3,10 @@ package elimination.challenge_04;
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * <h1>Jalur Harta Karun</h1>
@@ -118,15 +120,25 @@ public class Main {
         final Scanner in = new Scanner(System.in);
 
         String[] data = in.nextLine().split(" ");
+        if (data.length < 2)
+            throw new IllegalStateException("Input must be n and k!");
         final int n = Integer.parseInt(data[0]);
         final int k = Integer.parseInt(data[1]);
 
-        final int[] h = new int[n];
+        // initialize nodes
+        final Node[] nodes = new Node[n];
+        for (int i = 0; i < n; i++) nodes[i] = new Node(i, Integer.parseInt(in.nextLine()));
 
-        for (int i = 0; i < n; i++) h[i] = Integer.parseInt(in.nextLine());
-
+        // initialize node's edges
         for (int i = 0; i < k; i++) {
-
+            data = in.nextLine().split(" ");
+            if (data.length < 2)
+                throw new IllegalStateException("Input must be target and neighbor Node!");
+            if (Integer.parseInt(data[0]) < 0 || Integer.parseInt(data[0]) >= n)
+                throw new IllegalStateException("Target Node ID must be 0 - " + n);
+            if (Integer.parseInt(data[1]) < 0 || Integer.parseInt(data[1]) >= n)
+                throw new IllegalStateException("Neighbor Node ID must be 0 - " + n);
+            nodes[Integer.parseInt(data[0])].addBranch(nodes[Integer.parseInt(data[1])], 0);
         }
 
         in.close();
@@ -134,44 +146,49 @@ public class Main {
         // record the execution start time
         long startTime = System.nanoTime();
 
-        final Node[] nodes = {
-                new Node(0, 3), new Node(1, 12), new Node(2, 4), new Node(3, 1),
-                new Node(4, 2), new Node(5, 2), new Node(6, 4)
-        };
+        // initialize hashmap to save possible path list
+        final HashMap<String, Double> path = new HashMap<>();
 
-        final Node[] cloned = nodes.clone();
-
-        Arrays.sort(cloned, (n1, n2) -> Double.compare(n2.getF(), n1.getF()));
-
-        nodes[0].addBranch(nodes[2], 0);
-        nodes[1].addBranch(nodes[3], 0);
-        nodes[2].addBranch(nodes[3], 0);
-        nodes[2].addBranch(nodes[5], 0);
-        nodes[2].addBranch(nodes[4], 0);
-        nodes[3].addBranch(nodes[6], 0);
-        nodes[4].addBranch(nodes[5], 0);
-        nodes[5].addBranch(nodes[3], 0);
-
-        final HashMap<String, Double> possiblePath = new HashMap<>();
-
-        // greedy
+        // get the first node (node with highest h(n))
+        Node first = null;
         for (Node node : nodes) {
-            if (node == cloned[0]) continue;
-            final List<Node> result = new Pathfinder(cloned[0]).find(node);
-            if (result.isEmpty()) continue;
-            final StringBuilder key = new StringBuilder();
-            for (Node entry : result) key.append(entry.getId()).append(" ");
-            possiblePath.put(key.toString().trim(), result.stream().mapToDouble(Node::getH).sum());
+            if (first == null || first.getH() < node.getH()) first = node;
         }
 
-        final Map<String, Double> sortedPossiblePath = possiblePath.entrySet()
-                .stream()
-                .sorted((n1, n2) -> n2.getValue().compareTo(n1.getValue()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (n1, n2) -> n2, LinkedHashMap::new));
+        // time & space complexity: O(n * b^d)
+        for (Node node : nodes) {
 
-        final Map.Entry<String, Double> max = sortedPossiblePath.entrySet().iterator().next();
-        System.out.println(max.getKey());
-        System.out.format("Maximum h(n): %.1f%n", max.getValue());
+            // skip the starting node is the fixed first node
+            if (node == first) continue;
+
+            // perform pathfinding by highest f(n)
+            final List<Node> result = new Pathfinder(first).find(node);
+
+            // skip if no path is found
+            if (result.isEmpty()) continue;
+
+            // build the path key and path total h(n) value
+            // save it to path hashmap
+            final StringBuilder key = new StringBuilder();
+            for (Node entry : result) key.append(entry.getId()).append(" ");
+            path.put(key.toString().trim(), result.stream().mapToDouble(Node::getH).sum());
+        }
+
+        // check if there is an available path
+        if (!path.isEmpty()) {
+
+            // get the path that have max h(n)
+            // time & space complexity: O(n)
+            Map.Entry<String, Double> max = null;
+            for (Map.Entry<String, Double> entry : path.entrySet()) {
+                if (max == null || max.getValue() < entry.getValue()) max = entry;
+            }
+
+            // print the path and h(n) value
+            System.out.format("%n%s%nMaximum h(n): %.1f%n", max.getKey(), max.getValue());
+        } else {
+            System.out.format("%nThere is no path avaiable%n");
+        }
 
         // print the runtime information
         ExecutionTimeHelper.printExecutionTime(startTime);
