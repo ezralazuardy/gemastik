@@ -15,7 +15,7 @@ Language used in this challenge is Indonesian
 
 #### Available solutions
 
-- Gemastik 2021 Solutions (coming soon)
+- [Gemastik 2021 Solutions](https://github.com/ezralazuardy/gemastik/tree/2021)
 - [Gemastik 2020 Solutions](https://github.com/ezralazuardy/gemastik/tree/2020)
 - Gemastik 2017 Solutions (work in progresss)
 - Gemastik 2016 Solutions (work in progresss)
