@@ -1,4 +1,4 @@
-package elimination.challenge_03;
+package pre_elimination.challenge_01;
 
 import java.util.Scanner;
 

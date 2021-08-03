@@ -1,4 +1,4 @@
-package elimination.challenge_08;
+package pre_elimination.challenge_03;
 
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;

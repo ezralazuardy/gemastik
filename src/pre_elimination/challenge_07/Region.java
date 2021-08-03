@@ -1,4 +1,4 @@
-package elimination.challenge_01;
+package pre_elimination.challenge_07;
 
 /**
  * <h3>Coordinate class</h3>
