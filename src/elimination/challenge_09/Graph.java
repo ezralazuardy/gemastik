@@ -3,6 +3,17 @@ package elimination.challenge_09;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * <h3>Graph class</h3>
+ * Used to encapsulate a Graph data
+ * <p>
+ * <h3>Author</h3>
+ * Ezra Lazuardy<br/>
+ * <a href="mailto:ezralucio@gmail.com">ezralucio@gmail.com</a><br/>
+ * <a href="https://ezralazuardy.com">https://ezralazuardy.com</a>
+ * </p>
+ */
+
 public class Graph {
 
     private final int v;

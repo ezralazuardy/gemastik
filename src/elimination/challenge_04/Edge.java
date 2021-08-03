@@ -10,6 +10,7 @@ package elimination.challenge_04;
  * <a href="https://ezralazuardy.com">https://ezralazuardy.com</a>
  * </p>
  */
+
 public class Edge implements Comparable {
 
     private final Node node;

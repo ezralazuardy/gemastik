@@ -1,8 +1,5 @@
 package elimination.challenge_03;
 
-import helper.ExecutionTimeHelper;
-import helper.MemoryUsageHelper;
-
 import java.util.Scanner;
 
 /**
@@ -90,28 +87,19 @@ public class Main {
     public static void main(String[] args) {
         final Scanner in = new Scanner(System.in);
 
-        int n = Integer.parseInt(in.nextLine());
+        final int n = Integer.parseInt(in.nextLine());
+        final String[] result = new String[n];
 
-        // time & space complexity: O(n)
-        while (n-- > 0) {
-
+        for (int i = 0; i < n; i++) {
             String[] data = in.nextLine().trim().split(" ");
-            if (data.length < 3) throw new IllegalStateException("Input must be P Q and M");
-
-            // record the execution start time
-            long startTime = System.nanoTime();
-
             int m = Integer.parseInt(data[2]);
             int p = (int) Math.floor(Integer.parseInt(data[0]) / Math.pow(2, m % 2 == 0 ? m / 2 : (m + 1) / 2));
             int q = (int) Math.floor(Integer.parseInt(data[1]) / Math.pow(2, m % 2 == 0 ? m / 2 : (m - 1) / 2));
-            System.out.format("%n%d %d", Math.max(p, q), Math.min(p, q));
-
-            // print the runtime information
-            ExecutionTimeHelper.printExecutionTime(startTime);
-            MemoryUsageHelper.printMemoryUsage();
-            System.out.println();
+            result[i] = String.format("%d %d", Math.max(p, q), Math.min(p, q));
         }
 
         in.close();
+
+        for (String entry : result) System.out.println(entry);
     }
 }
