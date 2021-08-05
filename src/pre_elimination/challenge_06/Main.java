@@ -1,5 +1,11 @@
 package pre_elimination.challenge_06;
 
+import helper.ExecutionTimeHelper;
+import helper.MemoryUsageHelper;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -126,9 +132,28 @@ public class Main {
      *
      * @param args String[]
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalAccessException {
         final Scanner in = new Scanner(System.in);
 
+        final String[] data = in.nextLine().trim().split(" ");
+
         in.close();
+
+        final long startTime = System.nanoTime();
+
+        List<Integer> a = new ArrayList<>();
+
+        for (String entry : data) a.add(Math.min(Math.max(Integer.parseInt(entry), 1), 100));
+
+        if (a.size() < 1) throw new IllegalAccessException("Minimal n adalah 1!");
+
+        if (a.size() > 10000) a = a.subList(0, 10000 - 1);
+
+        a.sort(Collections.reverseOrder());
+
+        System.out.println(a.get(0) + 1);
+
+        ExecutionTimeHelper.printExecutionTime(startTime);
+        MemoryUsageHelper.printMemoryUsage();
     }
 }
