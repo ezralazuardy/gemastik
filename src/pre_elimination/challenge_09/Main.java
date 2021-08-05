@@ -1,5 +1,8 @@
 package pre_elimination.challenge_09;
 
+import helper.ExecutionTimeHelper;
+import helper.MemoryUsageHelper;
+
 import java.util.Scanner;
 
 /**
@@ -28,7 +31,7 @@ import java.util.Scanner;
  * Baris pertama berisi sebuah bilangan bulat positif 𝑁 (1 ≤ 𝑁 ≤ 100) yang menunjukkan
  * banyaknya pasangan 𝐴 dan 𝐵 yang disebutkan oleh Gema. 𝑁 baris berikutnya masing-masing
  * berisi dua bilangan bulat 𝐴 dan 𝐵 yang dipisahkan oleh spasi dengan ketentuan 2 ≤ 𝐴 ≤ 130
- * dan 2 ≤ 𝐵 ≤ 1015. Untuk setiap pasangan (𝐴,𝐵), keluarkan banyaknya Bilangan Mandiri.
+ * dan 2 ≤ 𝐵 ≤ 10^15. Untuk setiap pasangan (𝐴,𝐵), keluarkan banyaknya Bilangan Mandiri.
  * </p>
  * <p>
  * <table style="width: 100%;">
@@ -82,6 +85,56 @@ public class Main {
     public static void main(String[] args) {
         final Scanner in = new Scanner(System.in);
 
+        final int n = Math.min(Math.max(Integer.parseInt(in.nextLine()), 1), 100);
+        final long[][] pair = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            pair[i] = new long[2];
+            pair[i][0] = Math.min(Math.max(in.nextLong(), 2), 130);
+            pair[i][1] = Math.min(Math.max(in.nextLong(), 2), (long) Math.pow(10, 15));
+        }
+
         in.close();
+
+        final long startTime = System.nanoTime();
+
+        final int[] result = new int[n];
+
+        for (int i = 0; i < pair.length; i++) {
+
+            // if a & b is same, return 0 as result
+            if (pair[i][0] == pair[i][1]) {
+                result[i] = isPrime(pair[i][0]) ? 1 : 0;
+                continue;
+            }
+
+            // count prime number beetween a & b (exclusive)
+            int c = 0;
+            for (long j = pair[i][0] + 1; j < pair[i][1]; j++)
+                if (isPrime(j)) c++;
+            result[i] = c;
+        }
+
+        for (int entry : result) System.out.println(entry);
+
+        ExecutionTimeHelper.printExecutionTime(startTime);
+        MemoryUsageHelper.printMemoryUsage();
+    }
+
+    /**
+     * Check if n is prime or not
+     *
+     * @param n int
+     * @return boolean
+     */
+    private static boolean isPrime(long n) {
+        if (n <= 2) return false;
+        boolean prime = true;
+        for (int i = 2; i <= n / 2; i++) {
+            if (n % i == 0) {
+                prime = false;
+                break;
+            }
+        }
+        return prime;
     }
 }
