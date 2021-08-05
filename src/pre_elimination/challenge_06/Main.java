@@ -1,9 +1,4 @@
-package pre_elimination.challenge_05;
-
-import helper.ExecutionTimeHelper;
-import helper.MemoryUsageHelper;
-
-import java.util.Scanner;
+package pre_elimination.challenge_06;
 
 /**
  * <h1>Dadu Multisisi</h1>
@@ -213,87 +208,20 @@ import java.util.Scanner;
  * </p>
  * <p>
  * <h3>Author</h3>
- * R. Adi Wijaya Swastama
+ * Ezra Lazuardy<br/>
+ * <a href="mailto:ezralucio@gmail.com">ezralucio@gmail.com</a><br/>
+ * <a href="https://ezralazuardy.com">https://ezralazuardy.com</a>
  * </p>
  */
 
 public class Main {
 
+    /**
+     * Main method
+     *
+     * @param args String[]
+     */
     public static void main(String[] args) {
-        final Scanner in = new Scanner(System.in);
 
-        final String[] adhi = in.nextLine().split(" ");
-        final String[] vijay = in.nextLine().split(" ");
-
-        in.close();
-
-        final long startTime = System.nanoTime();
-
-        if (adhi.length < 3 || adhi.length > 100 || vijay.length < 3 || vijay.length > 100)
-            throw new ArithmeticException("Sisi dadu harus dalam rentang 3 - 100!");
-
-        if (adhi.length != vijay.length)
-            throw new ArithmeticException("Panjang tidak sama!");
-
-        int[] daduA = new int[adhi.length];
-        for (int i = 0; i < adhi.length; i++) {
-            daduA[i] = Integer.parseInt(adhi[i]);
-            if (daduA[i] < 1 || daduA[i] > 100)
-                throw new ArithmeticException("Bilangan sisi dadu harus dalam rentang 1 - 100!");
-        }
-
-        int[] daduB = new int[vijay.length];
-        for (int i = 0; i < vijay.length; i++) {
-            daduB[i] = Integer.parseInt(vijay[i]);
-            if (daduB[i] < 1 || daduB[i] > 100)
-                throw new ArithmeticException("Bilangan sisi dadu harus dalam rentang 1 - 100!");
-        }
-
-        // count peluang
-        int peluangA = 0, peluangB = 0;
-        for (int i = 0; i < adhi.length; i++) {
-            for (int j = 0; j < vijay.length; j++) {
-                if (daduA[i] > daduB[j]) peluangA++;
-                if (daduB[i] > daduA[j]) peluangB++;
-            }
-        }
-
-        int bagi = 36;
-        if (peluangA == peluangB) {
-            System.out.println("Imbang");
-        } else if (peluangA > peluangB) {
-            for (int i = 0; i < 1; ) {
-                if (peluangA % 2 == 0 && bagi % 2 == 0) {
-                    peluangA = peluangA / 2;
-                    bagi = bagi / 2;
-                } else if (peluangA % 3 == 0 && bagi % 3 == 0) {
-                    peluangA = peluangA / 3;
-                    bagi = bagi / 3;
-                } else if (peluangA % 5 == 0 && bagi % 5 == 0) {
-                    peluangA = peluangA / 5;
-                    bagi = bagi / 5;
-                } else i++;
-                if (i == 1)
-                    System.out.format("Adhi menang dengan peluang %d/%d%n", peluangA, bagi);
-            }
-        } else {
-            for (int i = 0; i < 1; ) {
-                if (peluangB % 2 == 0 && bagi % 2 == 0) {
-                    peluangB = peluangB / 2;
-                    bagi = bagi / 2;
-                } else if (peluangB % 3 == 0 && bagi % 3 == 0) {
-                    peluangB = peluangB / 3;
-                    bagi = bagi / 3;
-                } else if (peluangB % 5 == 0 && bagi % 5 == 0) {
-                    peluangB = peluangB / 5;
-                    bagi = bagi / 5;
-                } else i++;
-                if (i == 1)
-                    System.out.format("Vijay menang dengan peluang %d/%d%n", peluangB, bagi);
-            }
-        }
-
-        ExecutionTimeHelper.printExecutionTime(startTime);
-        MemoryUsageHelper.printMemoryUsage();
     }
 }
