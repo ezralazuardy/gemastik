@@ -5,6 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+/**
+ * <h3>Reader class</h3>
+ * Library class for faster and simple input processing (Scanner alternative).
+ * <p>
+ * <h3>Author</h3>
+ * Ezra Lazuardy<br/>
+ * <a href="mailto:ezralucio@gmail.com">ezralucio@gmail.com</a><br/>
+ * <a href="https://ezralazuardy.com">https://ezralazuardy.com</a>
+ * </p>
+ */
 public class Reader {
 
     private final BufferedReader br;
