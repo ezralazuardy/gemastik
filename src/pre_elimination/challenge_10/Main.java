@@ -1,6 +1,8 @@
 package pre_elimination.challenge_10;
 
-import java.util.Scanner;
+import library.Reader;
+
+import java.io.IOException;
 
 /**
  * <h1>Kurator Museum</h1>
@@ -115,8 +117,8 @@ public class Main {
      *
      * @param args String[]
      */
-    public static void main(String[] args) {
-        final Scanner in = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        final Reader in = new Reader();
 
         in.close();
     }

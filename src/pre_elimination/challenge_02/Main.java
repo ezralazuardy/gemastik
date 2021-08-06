@@ -2,9 +2,9 @@ package pre_elimination.challenge_02;
 
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
+import library.Reader;
 
 import java.math.BigInteger;
-import java.util.Scanner;
 
 /**
  * <h1>Giveaway</h1>
@@ -161,7 +161,7 @@ public class Main {
      * @param args String[]
      */
     public static void main(String[] args) {
-        final Scanner in = new Scanner(System.in);
+        final Reader in = new Reader();
 
         final int n = Integer.parseInt(in.nextLine());
 

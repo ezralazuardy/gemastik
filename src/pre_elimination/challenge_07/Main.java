@@ -2,8 +2,12 @@ package pre_elimination.challenge_07;
 
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
+import library.Reader;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * <h1>Prioritas Proyek Dawala</h1>
@@ -83,7 +87,7 @@ public class Main {
      * @param args String[]
      */
     public static void main(String[] args) {
-        final Scanner in = new Scanner(System.in);
+        final Reader in = new Reader();
 
         int n = Integer.parseInt(in.nextLine());
 

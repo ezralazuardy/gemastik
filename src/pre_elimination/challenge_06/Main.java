@@ -2,11 +2,11 @@ package pre_elimination.challenge_06;
 
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
+import library.Reader;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * <h1>Mengambil Spesimen Acak</h1>
@@ -133,7 +133,7 @@ public class Main {
      * @param args String[]
      */
     public static void main(String[] args) throws IllegalAccessException {
-        final Scanner in = new Scanner(System.in);
+        final Reader in = new Reader();
 
         final String[] data = in.nextLine().trim().split(" ");
 

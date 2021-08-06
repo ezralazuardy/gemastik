@@ -2,8 +2,7 @@ package pre_elimination.challenge_05;
 
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
-
-import java.util.Scanner;
+import library.Reader;
 
 /**
  * <h1>Dadu Multisisi</h1>
@@ -220,7 +219,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        final Scanner in = new Scanner(System.in);
+        final Reader in = new Reader();
 
         final String[] adhi = in.nextLine().split(" ");
         final String[] vijay = in.nextLine().split(" ");

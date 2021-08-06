@@ -2,10 +2,10 @@ package pre_elimination.challenge_08;
 
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
+import library.Reader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * <h1>Lumpat (Kabur)</h1>
@@ -171,7 +171,7 @@ public class Main {
      * @param args String[]
      */
     public static void main(String[] args) {
-        final Scanner in = new Scanner(System.in);
+        final Reader in = new Reader();
 
         final int p = Integer.parseInt(in.nextLine());
         final int l = Integer.parseInt(in.nextLine());

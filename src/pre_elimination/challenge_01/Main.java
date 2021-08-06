@@ -1,6 +1,6 @@
 package pre_elimination.challenge_01;
 
-import java.util.Scanner;
+import library.Reader;
 
 /**
  * <h1>Lipat Kertas Gambar</h1>
@@ -85,7 +85,7 @@ public class Main {
      * @param args String[]
      */
     public static void main(String[] args) {
-        final Scanner in = new Scanner(System.in);
+        final Reader in = new Reader();
 
         final int n = Integer.parseInt(in.nextLine());
         final String[] result = new String[n];

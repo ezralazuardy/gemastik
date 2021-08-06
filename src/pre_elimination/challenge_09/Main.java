@@ -2,8 +2,7 @@ package pre_elimination.challenge_09;
 
 import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
-
-import java.util.Scanner;
+import library.Reader;
 
 /**
  * <h1>Bilangan Mandiri</h1>
@@ -83,7 +82,7 @@ public class Main {
      * @param args String[]
      */
     public static void main(String[] args) {
-        final Scanner in = new Scanner(System.in);
+        final Reader in = new Reader();
 
         final int n = Math.min(Math.max(Integer.parseInt(in.nextLine()), 1), 100);
         final long[][] pair = new long[n][2];
