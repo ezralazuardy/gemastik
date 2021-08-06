@@ -4,6 +4,10 @@ import helper.ExecutionTimeHelper;
 import helper.MemoryUsageHelper;
 import library.Reader;
 
+import java.util.function.LongFunction;
+import java.util.function.LongPredicate;
+import java.util.stream.LongStream;
+
 /**
  * <h1>Bilangan Mandiri</h1>
  * <small>
@@ -98,42 +102,26 @@ public class Main {
 
         final int[] result = new int[n];
 
-        for (int i = 0; i < pair.length; i++) {
-
-            // if a & b is same, return 0 as result
-            if (pair[i][0] == pair[i][1]) {
-                result[i] = isPrime(pair[i][0]) ? 1 : 0;
-                continue;
-            }
-
-            // count prime number beetween a & b (exclusive)
-            int c = 0;
-            for (long j = pair[i][0] + 1; j < pair[i][1]; j++)
-                if (isPrime(j)) c++;
-            result[i] = c;
-        }
-
-        for (int entry : result) System.out.println(entry);
+        for (long[] longs : pair)
+            System.out.println(countPrimes(longs[0], longs[1]));
 
         ExecutionTimeHelper.printExecutionTime(startTime);
         MemoryUsageHelper.printMemoryUsage();
     }
 
     /**
-     * Check if n is prime or not
+     * Count prime numbers between <code>a</code> and <code>b</code>
      *
-     * @param n int
-     * @return boolean
+     * @param a long
+     * @param b long
+     * @return long
      */
-    private static boolean isPrime(long n) {
-        if (n <= 2) return false;
-        boolean prime = true;
-        for (int i = 2; i <= n / 2; i++) {
-            if (n % i == 0) {
-                prime = false;
-                break;
-            }
-        }
-        return prime;
+    public static long countPrimes(long a, long b) {
+        LongStream primes = LongStream.range(a, b - 1);
+        LongFunction<LongPredicate> sieve = n -> i -> i == n || i % n != 0;
+        primes = primes.filter(sieve.apply(2));
+        for (long i = 3; i * i <= b; i += 2)
+            primes = primes.filter(sieve.apply(i));
+        return primes.count();
     }
 }
