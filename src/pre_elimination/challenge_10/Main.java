@@ -123,9 +123,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         final Reader in = new Reader();
 
-        final int[] p = new int[in.nextInt()];
+        final int[] p = new int[Math.min(Math.max(in.nextInt(), 0), 100000)];
 
-        for (int i = 0; i < p.length; i++) p[i] = in.nextInt();
+        for (int i = 0; i < p.length; i++) p[i] = Math.min(Math.max(in.nextInt(), 0), 100000);
 
         in.close();
 

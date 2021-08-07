@@ -1,6 +1,10 @@
 package pre_elimination.challenge_11;
 
+import helper.ExecutionTimeHelper;
+import helper.MemoryUsageHelper;
 import library.Reader;
+
+import java.math.BigInteger;
 
 /**
  * <h1>Sultan yang Dermawan</h1>
@@ -183,6 +187,65 @@ public class Main {
     public static void main(String[] args) {
         final Reader in = new Reader();
 
+        final String[] data = in.nextLine().split(" ");
+
         in.close();
+
+        final int[] a = new int[Math.min(Math.max(data.length, 1), 15000)];
+
+        int sum = 0;
+
+        for (int i = 0; i < data.length; i++) {
+            a[i] = Math.min(Math.max(Integer.parseInt(data[i]), 1), 1000);
+            sum += a[i];
+        }
+
+        final long startTime = System.nanoTime();
+
+        solve(a, sum);
+
+        ExecutionTimeHelper.printExecutionTime(startTime);
+        MemoryUsageHelper.printMemoryUsage();
+    }
+
+    /**
+     * Solution 1 - Solve the problem!
+     *
+     * @param a   int[]
+     * @param sum int
+     */
+    private static void solve(int[] a, int sum) {
+        BigInteger x = BigInteger.ONE, y = BigInteger.ONE;
+        for (int i = 2; i <= sum; i++)
+            x = x.multiply(BigInteger.valueOf(i));
+        for (int i = 0; i < a.length; i++)
+            while (a[i] > 0) y = y.multiply(BigInteger.valueOf(a[i]--));
+        System.out.println((x.divide(y)).mod(BigInteger.valueOf(1000000007)));
+    }
+
+    /**
+     * Solution 2 - Solve the problem!
+     *
+     * @param a   int[]
+     * @param sum int
+     */
+    private static void solve2(int[] a, int sum) {
+        BigInteger num = fact(sum), denom = BigInteger.ONE;
+        for (int i : a) denom = denom.multiply(fact(i));
+        System.out.println(num.divide(denom).mod(BigInteger.valueOf(1000000007)));
+    }
+
+    /**
+     * Factorial using Dynamic Programming (BigInteger data), used in <code>solve2()</code>
+     *
+     * @param n int
+     * @return BigInteger
+     */
+    private static BigInteger fact(int n) {
+        if (n <= 1) return BigInteger.ONE;
+        final BigInteger[] dp = new BigInteger[n + 1];
+        dp[0] = dp[1] = BigInteger.ONE;
+        for (int i = 2; i <= n; i++) dp[i] = dp[i - 1].multiply(BigInteger.valueOf(i));
+        return dp[n];
     }
 }
