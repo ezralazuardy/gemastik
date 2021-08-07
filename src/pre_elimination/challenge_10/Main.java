@@ -1,8 +1,11 @@
 package pre_elimination.challenge_10;
 
+import helper.ExecutionTimeHelper;
+import helper.MemoryUsageHelper;
 import library.Reader;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * <h1>Kurator Museum</h1>
@@ -120,6 +123,40 @@ public class Main {
     public static void main(String[] args) throws IOException {
         final Reader in = new Reader();
 
+        final int[] p = new int[in.nextInt()];
+
+        for (int i = 0; i < p.length; i++) p[i] = in.nextInt();
+
         in.close();
+
+        final long startTime = System.nanoTime();
+
+        rearrange(p);
+
+        ExecutionTimeHelper.printExecutionTime(startTime);
+        MemoryUsageHelper.printMemoryUsage();
+    }
+
+    /**
+     * Rearrange array <code>p</code> based on maximum difference
+     *
+     * @param p int[]
+     */
+    private static void rearrange(int[] p) {
+
+        final int[] sorted = p.clone();
+
+        Arrays.sort(sorted);
+
+        for (int i = 0, j = p.length - 1; i <= p.length / 2; i++) {
+            if (p[i] != sorted[i]) continue;
+            int temp = sorted[i];
+            sorted[i] = sorted[j];
+            sorted[j] = temp;
+            j--;
+        }
+
+        for (int i : sorted) System.out.format("%d ", i);
+        System.out.println();
     }
 }
