@@ -150,35 +150,13 @@ public class Main {
 
         for (int i = 0, j = p.length - 1; i <= p.length / 2; i++) {
             if (p[i] != sorted[i]) continue;
-            int temp = sorted[i];
+            final int temp = sorted[i];
             sorted[i] = sorted[j];
             sorted[j] = temp;
             j--;
         }
 
-        if (maxDiff(sorted) > maxDiff(p)) {
-            for (int i : sorted) System.out.format("%d ", i);
-            System.out.println();
-            return;
-        }
-
-        for (int i : p) System.out.format("%d ", i);
+        for (int i : sorted) System.out.format("%d ", i);
         System.out.println();
-    }
-
-    /**
-     * Find the maximum difference in <code>p</code>
-     *
-     * @param p int[]
-     * @return int
-     */
-    private static int maxDiff(int[] p) {
-        int max = p[1] - p[0];
-        for (int i = 0; i < p.length; i++) {
-            for (int j = i + 1; j < p.length; j++) {
-                if (p[j] - p[i] > max) max = p[j] - p[i];
-            }
-        }
-        return max;
     }
 }
